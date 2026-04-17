@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <h1 class="display-5 text-success">Tableau de Bord Agriculture Urbaine</h1>
+        <p class="lead">Suivi des micro-fermes de Yaoundé</p>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card kpi-card h-100">
+            <div class="card-body">
+                <h6 class="text-muted">Fermes Actives</h6>
+                <h2 class="text-success">{{ total_fermes }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card kpi-card h-100">
+            <div class="card-body">
+                <h6 class="text-muted">Total Récoltes</h6>
+                <h2 class="text-warning">{{ total_recoltes }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card kpi-card h-100">
+            <div class="card-body">
+                <h6 class="text-muted">Production (kg)</h6>
+                <h2 class="text-info">{{ "%.1f"|format(production_totale) }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card kpi-card h-100">
+            <div class="card-body text-center">
+                <a href="{{ url_for('dashboard.nouvelle_ferme_form') }}" class="btn btn-success btn-lg w-100">
+                    + Nouvelle Ferme
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                Dernières Récoltes Enregistrées
+            </div>
+            <div class="card-body">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Ferme</th>
+                            <th>Culture</th>
+                            <th>Quantité (kg)</th>
+                            <th>Qualité</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for recolte in dernieres_recoltes %}
+                        <tr>
+                            <td>{{ recolte.date_recolte }}</td>
+                            <td>{{ recolte.ferme.nom }}</td>
+                            <td><span class="badge bg-success">{{ recolte.culture_type }}</span></td>
+                            <td>{{ recolte.quantite_kg }}</td>
+                            <td>
+                                <span class="badge bg-{{ 'success' if recolte.qualite == 'A' else 'warning' if recolte.qualite == 'B' else 'secondary' }}">
+                                    {{ recolte.qualite }}
+                                </span>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header bg-warning text-dark">
+                Accès Rapide API
+            </div>
+            <div class="card-body">
+                <div class="list-group">
+                    <a href="/api/farms/" class="list-group-item list-group-item-action">
+                        📋 Liste des fermes (JSON)
+                    </a>
+                    <a href="/api/farms/stats/arrondissements" class="list-group-item list-group-item-action">
+                        📊 Stats par arrondissement
+                    </a>
+                    <a href="/api/harvests/analytics/cultures" class="list-group-item list-group-item-action">
+                        🌾 Analyse des cultures
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

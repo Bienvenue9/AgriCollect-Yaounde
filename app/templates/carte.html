@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block title %}Carte des Fermes - AgriCollect{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <h1 class="display-5 text-success">🗺️ Carte des Micro-Fermes</h1>
+        <p class="lead">Localisation des fermes urbaines à Yaoundé</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body p-0">
+                <div id="map" style="height: 600px; width: 100%;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="alert alert-info">
+            <strong>📍 Légende :</strong> Cliquez sur un marqueur pour voir les détails de la ferme.
+            Total : {{ fermes|length }} ferme(s) géolocalisée(s).
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Initialisation de la carte centrée sur Yaoundé
+    var map = L.map('map').setView([3.8480, 11.5021], 13);
+    
+    // Ajout du fond de carte OpenStreetMap
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+        maxZoom: 19
+    }).addTo(map);
+    
+    // Ajout des marqueurs pour chaque ferme
+    {% for ferme in fermes %}
+        {% if ferme.latitude and ferme.longitude %}
+            L.marker([{{ ferme.latitude }}, {{ ferme.longitude }}])
+                .addTo(map)
+                .bindPopup(`
+                    <strong>{{ ferme.nom }}</strong><br>
+                    📍 {{ ferme.quartier }}, {{ ferme.arrondissement }}<br>
+                    👤 {{ ferme.proprietaire }}<br>
+                    📏 {{ ferme.superficie_m2 }} m²<br>
+                    🌱 {{ ferme.type_culture_principal or 'Non spécifié' }}
+                `);
+        {% endif %}
+    {% endfor %}
+    
+    // Ajuster la vue pour voir tous les marqueurs s'il y en a
+    {% if fermes %}
+        var group = new L.featureGroup([
+            {% for ferme in fermes %}
+                {% if ferme.latitude and ferme.longitude %}
+                    L.marker([{{ ferme.latitude }}, {{ ferme.longitude }}]),
+                {% endif %}
+            {% endfor %}
+        ]);
+        map.fitBounds(group.getBounds().pad(0.1));
+    {% endif %}
+</script>
+{% endblock %}

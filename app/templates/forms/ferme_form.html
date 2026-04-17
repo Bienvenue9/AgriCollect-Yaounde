@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+
+{% block title %}Nouvelle Ferme - AgriCollect{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                <h4 class="mb-0">🌱 Nouvelle Micro-Ferme</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="{{ url_for('dashboard.nouvelle_ferme_form') }}">
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="nom" class="form-label">Nom de la ferme *</label>
+                            <input type="text" class="form-control" id="nom" name="nom" required 
+                                   placeholder="Ex: Ferme Urbaine Bonapriso">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="proprietaire" class="form-label">Propriétaire *</label>
+                            <input type="text" class="form-control" id="proprietaire" name="proprietaire" required
+                                   placeholder="Ex: Jean Moussa">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="telephone" class="form-label">Téléphone</label>
+                            <input type="tel" class="form-control" id="telephone" name="telephone"
+                                   placeholder="+237 677 123 456">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" name="email"
+                                   placeholder="contact@ferme.cm">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="quartier" class="form-label">Quartier *</label>
+                            <input type="text" class="form-control" id="quartier" name="quartier" required
+                                   placeholder="Ex: Essos, Mokolo, Bastos...">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="arrondissement" class="form-label">Arrondissement *</label>
+                            <select class="form-select" id="arrondissement" name="arrondissement" required>
+                                <option value="" selected>Choisir...</option>
+                                <option value="I">I</option>
+                                <option value="II">II</option>
+                                <option value="III">III</option>
+                                <option value="IV">IV</option>
+                                <option value="V">V</option>
+                                <option value="VI">VI</option>
+                                <option value="VII">VII</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="superficie_m2" class="form-label">Superficie (m²) *</label>
+                            <input type="number" step="0.1" class="form-control" id="superficie_m2" 
+                                   name="superficie_m2" required placeholder="Ex: 250.5">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="type_culture_principal" class="form-label">Type de culture principal</label>
+                            <input type="text" class="form-control" id="type_culture_principal" 
+                                   name="type_culture_principal" placeholder="Ex: Gombo, Tomate...">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="latitude" class="form-label">Latitude (GPS)</label>
+                            <input type="number" step="0.0001" class="form-control" id="latitude" name="latitude"
+                                   placeholder="3.8480">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="longitude" class="form-label">Longitude (GPS)</label>
+                            <input type="number" step="0.0001" class="form-control" id="longitude" name="longitude"
+                                   placeholder="11.5021">
+                        </div>
+                    </div>
+                    <div class="row">
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-success btn-lg">
+                            💾 Enregistrer la ferme
+                        </button>
+                        <a href="{{ url_for('dashboard.index') }}" class="btn btn-outline-secondary">
+                            ← Retour au tableau de bord
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

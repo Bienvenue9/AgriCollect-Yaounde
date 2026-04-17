@@ -1,0 +1,27 @@
+# Python 3.14 compatible packages
+Flask==3.1.3
+Werkzeug==3.1.8
+Jinja2>=3.1.5
+itsdangerous>=2.2.0
+click>=8.1.8
+
+# Database - SQLAlchemy 2.0+ required
+Flask-SQLAlchemy==3.1.1
+SQLAlchemy==2.0.36
+Flask-Migrate==4.0.7
+alembic==1.14.0
+
+# Validation - Pydantic v2
+pydantic==2.10.4
+pydantic[email]==2.10.4
+email-validator==2.2.0
+
+# Security
+Flask-WTF==1.2.2
+WTForms==3.2.1
+
+# Environment
+python-dotenv==1.0.1
+
+# Production server (optional)
+gunicorn==23.0.0
