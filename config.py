@@ -42,6 +42,8 @@ class DevelopmentConfig(Config):
 
 class ProductionConfig(Config):
     DEBUG: bool = False
+    # Render provides DATABASE_URL automatically
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or 'sqlite:///agricollect.db'
 
 
 config = {

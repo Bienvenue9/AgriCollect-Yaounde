@@ -85,6 +85,8 @@ if __name__ == '__main__':
     )
 
     # For production (Render.com)
-if __name__ != '__main__':
-    # This is for Gunicorn
+if __name__ == '__main__':
+    app.run(debug=True)
+else:
+    # For production servers like Render
     app = create_app('production')
