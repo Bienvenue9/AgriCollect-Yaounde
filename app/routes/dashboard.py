@@ -66,7 +66,7 @@ def nouvelle_ferme_form():
                 'type_culture_principal': request.form.get('type_culture_principal') or None
             }
             
-            validated = MicroFermeCreate.model_validate(form_data)
+            validated = MicroFermeCreate.parse_obj(form_data)
             ferme = MicroFerme(**validated.model_dump())
             
             db.session.add(ferme)

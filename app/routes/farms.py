@@ -72,7 +72,7 @@ def create_ferme() -> tuple:
     """Create new farm with Pydantic v2 validation"""
     try:
         # Validate input
-        data = MicroFermeCreate.model_validate(request.get_json())
+        data = MicroFermeCreate.parse_obj(request.get_json())
         
         # Check uniqueness using SQLAlchemy 2.0 exists()
         exists_stmt = select(MicroFerme).where(
@@ -112,7 +112,7 @@ def update_ferme(farm_id: int) -> dict:
         abort(404)
     
     try:
-        data = MicroFermeCreate.model_validate(request.get_json())
+        data = MicroFermeCreate.parse_obj(request.get_json())
         
         # Update fields
         for key, value in data.model_dump().items():
