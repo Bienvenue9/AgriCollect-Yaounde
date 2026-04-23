@@ -15,8 +15,8 @@ class MicroFermeCreate(BaseModel):
     email: Optional[EmailStr] = None
     quartier: str = Field(..., min_length=2, max_length=50)
     arrondissement: str = Field(..., regex=r'^(I|II|III|IV|V|VI|VII)$')
-    latitude: Optional[float] = Field(None, ge=3.7, le=4.0)
-    longitude: Optional[float] = Field(None, ge=11.4, le=11.6)
+    latitude: Optional[float] = None
+    longitude: Optional[float] = None
     superficie_m2: float = Field(..., gt=0, le=10000)
     type_culture_principal: Optional[str] = Field(None, max_length=50)
 
