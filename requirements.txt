@@ -7,7 +7,7 @@ click>=8.1.8
 
 # Database - SQLAlchemy 2.0+ required
 Flask-SQLAlchemy==3.1.1
-SQLAlchemy==2.0.36
+SQLAlchemy==2.0.48
 Flask-Migrate==4.0.7
 alembic==1.14.0
 
