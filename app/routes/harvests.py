@@ -119,9 +119,9 @@ def analytics_cultures():
             }), 200
         
         return jsonify([{
-            'culture': row.culture_type,
-            'volume_total_kg': round(float(row.volume_total or 0), 2),
-            'nombre_recoltes': row.nb_recoltes
+            'culture': row[0],
+            'volume_total_kg': round(float(row[1] or 0), 2),
+            'nombre_recoltes': row[2]
         } for row in results])
         
     except Exception as e:
