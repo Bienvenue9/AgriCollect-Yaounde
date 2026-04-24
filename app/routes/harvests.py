@@ -35,7 +35,7 @@ def list_recoltes() -> dict:
     recoltes = db.session.scalars(stmt).all()
     
     return jsonify([
-        RecolteResponse.model_validate(r).model_dump() for r in recoltes
+        RecolteResponse.parse_obj(r).model_dump() for r in recoltes
     ])
 
 
@@ -43,7 +43,7 @@ def list_recoltes() -> dict:
 def create_recolte() -> tuple:
     """Create new harvest"""
     try:
-        data = RecolteCreate.model_validate(request.get_json())
+        data = RecolteCreate.parse_obj(request.get_json())
         
         # Verify farm exists using session.get() (SQLAlchemy 2.0)
         if not db.session.get(MicroFerme, data.ferme_id):
@@ -55,7 +55,7 @@ def create_recolte() -> tuple:
         
         return jsonify({
             'message': 'Harvest recorded',
-            'data': RecolteResponse.model_validate(recolte).model_dump()
+            'data': RecolteResponse.parse_obj(recolte).model_dump()
         }), 201
         
     except ValidationError as e:

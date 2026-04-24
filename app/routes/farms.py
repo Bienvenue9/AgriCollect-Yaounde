@@ -2,7 +2,7 @@
 Flask 3.x API routes with SQLAlchemy 2.0 queries
 Using modern exception handling and type hints
 """
-from flask import Blueprint, request, jsonify, abort
+from flask import Blueprint, request, jsonify, abort, current_app
 from sqlalchemy import select, func
 from pydantic import ValidationError
 
@@ -43,7 +43,7 @@ def list_fermes() -> dict:
     result = db.paginate(stmt, page=page, per_page=per_page, error_out=False)
     
     # Serialize using Pydantic v2
-    items = [MicroFermeResponse.model_validate(f).model_dump() for f in result.items]
+    items = [MicroFermeResponse.parse_obj(f).model_dump() for f in result.items]
     
     return jsonify({
         'data': items,
@@ -64,7 +64,7 @@ def get_ferme(farm_id: int) -> dict:
     if ferme is None:
         abort(404, description="Farm not found")
     
-    return jsonify(MicroFermeResponse.model_validate(ferme).model_dump())
+    return jsonify(MicroFermeResponse.parse_obj(ferme).model_dump())
 
 
 @farms_bp.post('/')
@@ -89,7 +89,7 @@ def create_ferme() -> tuple:
         
         return jsonify({
             'message': 'Farm created successfully',
-            'data': MicroFermeResponse.model_validate(ferme).model_dump()
+            'data': MicroFermeResponse.parse_obj(ferme).model_dump()
         }), 201
         
     except ValidationError as e:
@@ -121,7 +121,7 @@ def update_ferme(farm_id: int) -> dict:
         db.session.commit()
         return jsonify({
             'message': 'Farm updated',
-            'data': MicroFermeResponse.model_validate(ferme).model_dump()
+            'data': MicroFermeResponse.parse_obj(ferme).model_dump()
         })
         
     except ValidationError as e:
