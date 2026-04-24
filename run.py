@@ -31,8 +31,8 @@ def init_db():
     """Initialize database tables"""
     with app.app_context():
          db.drop_all()
-        db.create_all()
-        print('✅ Base recréée sans ville')
+         db.create_all()
+         print('✅ Base recréée sans ville')
 
 
 @app.cli.command('seed')
