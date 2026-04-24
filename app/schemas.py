@@ -29,10 +29,6 @@ class MicroFermeCreate(BaseModel):
             raise ValueError('Invalid Cameroon phone format')
         return v
 
-    @validator('ville', 'quartier')
-    def normalize_names(cls, v):
-        return v.title()
-
     class Config:
         anystr_strip_whitespace = True
         validate_assignment = True
