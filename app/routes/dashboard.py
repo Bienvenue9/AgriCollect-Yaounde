@@ -7,7 +7,7 @@ from sqlalchemy import select
 
 from app import db
 from app.models import MicroFerme, Recolte
-from app.schemas import MicroFermeCreate
+from app.schemas import MicroFermeCreate, RecolteResponse
 
 dashboard_bp = Blueprint('dashboard', __name__)
 
@@ -25,9 +25,11 @@ def index():
         'production_totale': db.session.scalar(
             select(db.func.sum(Recolte.quantite_kg))
         ) or 0,
-        'dernieres_recoltes': db.session.scalars(
-            select(Recolte).order_by(Recolte.date_recolte.desc()).limit(5)
-        ).all()
+        'dernieres_recoltes': [
+            RecolteResponse.from_orm(r).dict() for r in db.session.scalars(
+                select(Recolte).order_by(Recolte.date_recolte.desc()).limit(5)
+            ).all()
+        ]
     }
     return render_template('index.html', **stats)
 

@@ -43,7 +43,7 @@ def list_fermes() -> dict:
     result = db.paginate(stmt, page=page, per_page=per_page, error_out=False)
     
     # Serialize using Pydantic v2
-    items = [MicroFermeResponse.parse_obj(f).dict() for f in result.items]
+    items = [MicroFermeResponse.from_orm(f).dict() for f in result.items]
     
     return jsonify({
         'data': items,
@@ -64,7 +64,7 @@ def get_ferme(farm_id: int) -> dict:
     if ferme is None:
         abort(404, description="Farm not found")
     
-    return jsonify(MicroFermeResponse.parse_obj(ferme).dict())
+    return jsonify(MicroFermeResponse.from_orm(ferme).dict())
 
 
 @farms_bp.post('/')
@@ -89,7 +89,7 @@ def create_ferme() -> tuple:
         
         return jsonify({
             'message': 'Farm created successfully',
-            'data': MicroFermeResponse.parse_obj(ferme).dict()
+            'data': MicroFermeResponse.from_orm(ferme).dict()
         }), 201
         
     except ValidationError as e:
@@ -121,7 +121,7 @@ def update_ferme(farm_id: int) -> dict:
         db.session.commit()
         return jsonify({
             'message': 'Farm updated',
-            'data': MicroFermeResponse.parse_obj(ferme).dict()
+            'data': MicroFermeResponse.from_orm(ferme).dict()
         })
         
     except ValidationError as e:
