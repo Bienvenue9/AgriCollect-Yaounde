@@ -30,8 +30,9 @@ def make_shell_context():
 def init_db():
     """Initialize database tables"""
     with app.app_context():
+         db.drop_all()
         db.create_all()
-        print('✅ Database initialized successfully')
+        print('✅ Base recréée sans ville')
 
 
 @app.cli.command('seed')
