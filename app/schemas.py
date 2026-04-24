@@ -38,7 +38,6 @@ class MicroFermeResponse(BaseModel):
     id: int
     nom: str
     proprietaire: str
-    ville: str
     quartier: str
     arrondissement: str
     superficie_m2: float
