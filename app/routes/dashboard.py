@@ -67,7 +67,7 @@ def nouvelle_ferme_form():
             }
             
             validated = MicroFermeCreate.parse_obj(form_data)
-            ferme = MicroFerme(**validated.model_dump())
+            ferme = MicroFerme(**validated.dict())
             
             db.session.add(ferme)
             db.session.commit()
