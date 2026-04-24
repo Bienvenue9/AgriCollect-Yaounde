@@ -10,7 +10,6 @@ from pydantic import BaseModel, Field, validator, EmailStr
 class MicroFermeCreate(BaseModel):
     nom: str = Field(..., min_length=3, max_length=100)
     proprietaire: str = Field(..., min_length=2, max_length=100)
-    ville: str = Field(default='Yaoundé', min_length=2, max_length=50)
     telephone: Optional[str] = Field(None, regex=r'^\+?[\d\s-]{8,}$')
     email: Optional[EmailStr] = None
     quartier: str = Field(..., min_length=2, max_length=50)
